@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#343434"
+    android:fitsSystemWindows="true"
+    tools:context=".AddStudent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbar_v_as_headerBG"
+        android:layout_width="411dp"
+        android:layout_height="0dp"
+        android:background="#663AB6"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
+    <TextView
+        android:id="@+id/tv_v_as_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="monospace"
+        android:text="Add Student"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tbar_v_as_headerBG"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tbar_v_as_headerBG"
+        tools:layout_editor_absoluteX="80dp" />
+
+    <TextView
+        android:id="@+id/lbl_firstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        android:fontFamily="monospace"
+        android:text="First Name:"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbar_v_as_headerBG" />
+
+    <TextView
+        android:id="@+id/lbl_lastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="38dp"
+        android:fontFamily="monospace"
+        android:text="Last Name:"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_firstName" />
+
+    <TextView
+        android:id="@+id/lbl_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="38dp"
+        android:fontFamily="monospace"
+        android:text="Username:"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_lastName" />
+
+    <TextView
+        android:id="@+id/lbl_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="38dp"
+        android:fontFamily="monospace"
+        android:text="Email:"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_username" />
+
+    <TextView
+        android:id="@+id/lbl_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="38dp"
+        android:fontFamily="monospace"
+        android:text="Age:"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_email" />
+
+    <TextView
+        android:id="@+id/lbl_gpa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="monospace"
+        android:text="GPA:"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/et_v_as_gpa"
+        app:layout_constraintTop_toBottomOf="@+id/et_v_as_email" />
+
+    <TextView
+        android:id="@+id/lbl_major"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="monospace"
+        android:text="Major:"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_v_as_age" />
+
+    <TextView
+        android:id="@+id/tv_v_as_addMajorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="43dp"
+        android:fontFamily="monospace"
+        android:text="Don't see your major? Add it here!"
+        android:textAllCaps="false"
+        android:textColor="#D2D2D2"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sp_v_as_major" />
+
+    <TextView
+        android:id="@+id/tv_v_as_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="43dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="13dp"
+        android:fontFamily="monospace"
+        android:text="Error: Please fill out all fields."
+        android:textColor="#FF5050"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btn_v_as_addStudent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/et_v_as_fname"
+        android:layout_width="272dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="14dp"
+        android:background="#2A2A2A"
+        android:ems="10"
+        android:fontFamily="monospace"
+        android:inputType="text"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        android:text="John"
+        android:textColor="#D2D2D2"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lbl_firstName"
+        app:layout_constraintTop_toBottomOf="@+id/tbar_v_as_headerBG" />
+
+    <EditText
+        android:id="@+id/et_v_as_lname"
+        android:layout_width="272dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="14dp"
+        android:background="#2A2A2A"
+        android:ems="10"
+        android:fontFamily="monospace"
+        android:inputType="text"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        android:text="Smith"
+        android:textColor="#D2D2D2"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lbl_lastName"
+        app:layout_constraintTop_toBottomOf="@+id/et_v_as_fname" />
+
+    <EditText
+        android:id="@+id/et_v_as_username"
+        android:layout_width="272dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="14dp"
+        android:background="#2A2A2A"
+        android:ems="10"
+        android:fontFamily="monospace"
+        android:inputType="text"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        android:text="jsmith2214"
+        android:textColor="#D2D2D2"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lbl_username"
+        app:layout_constraintTop_toBottomOf="@+id/et_v_as_lname" />
+
+    <EditText
+        android:id="@+id/et_v_as_email"
+        android:layout_width="317dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="14dp"
+        android:background="#2A2A2A"
+        android:ems="10"
+        android:fontFamily="monospace"
+        android:inputType="text"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        android:text="jsmith2214@email.com"
+        android:textColor="#D2D2D2"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lbl_email"
+        app:layout_constraintTop_toBottomOf="@+id/et_v_as_username" />
+
+    <EditText
+        android:id="@+id/et_v_as_age"
+        android:layout_width="120dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="14dp"
+        android:background="#2A2A2A"
+        android:ems="10"
+        android:fontFamily="monospace"
+        android:inputType="number"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        android:text="17"
+        android:textColor="#D2D2D2"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/lbl_gpa"
+        app:layout_constraintStart_toEndOf="@+id/lbl_age"
+        app:layout_constraintTop_toBottomOf="@+id/et_v_as_email" />
+
+    <EditText
+        android:id="@+id/et_v_as_gpa"
+        android:layout_width="157dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="32dp"
+        android:background="#2A2A2A"
+        android:ems="10"
+        android:fontFamily="monospace"
+        android:inputType="numberDecimal"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        android:text="3.50"
+        android:textColor="#D2D2D2"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.944"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_v_as_email" />
+
+    <Spinner
+        android:id="@+id/sp_v_as_major"
+        android:layout_width="317dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="14dp"
+        android:background="#2A2A2A"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lbl_major"
+        app:layout_constraintTop_toBottomOf="@+id/et_v_as_age" />
+
+    <Button
+        android:id="@+id/btn_v_as_addStudent"
+        android:layout_width="349dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="265dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="2dp"
+        android:backgroundTint="#663AB6"
+        android:fontFamily="monospace"
+        android:text="Add Student"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btn_v_as_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sp_v_as_major" />
+
+    <Button
+        android:id="@+id/btn_v_as_cancel"
+        android:layout_width="349dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="84dp"
+        android:backgroundTint="#663AB6"
+        android:fontFamily="monospace"
+        android:text="Cancel"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_v_as_addStudent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
