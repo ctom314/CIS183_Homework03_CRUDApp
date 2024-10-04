@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -13,9 +15,6 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 
@@ -41,11 +40,20 @@ public class AddStudent extends AppCompatActivity
     Intent intent_j_MainActivity;
     Intent intent_j_AddMajor;
 
+    // Pre-built adapter for majors
+    ArrayAdapter<String> adapter;
+    String majorNameDisplay = MainActivity.majorList.get(0).getName();
+
     static ArrayList<String> errorMsgs = new ArrayList<String>()
     {
         {
+            // Student Add Error Messages
             add(("All fields must be filled out"));
             add(("Username already exists"));
+            add(("Invalid email"));
+
+            // Major Add Error Message
+            add(("Major already exists"));
         }
     };
 
@@ -75,6 +83,12 @@ public class AddStudent extends AppCompatActivity
         // Make sure the status bar is a static color
         getWindow().setStatusBarColor(Color.parseColor("#492A82"));
 
+        // Setup adapter
+        adapter = new ArrayAdapter<>
+                (this,
+                        android.R.layout.simple_spinner_dropdown_item, MainActivity.getMajorNames());
+        sp_j_as_major.setAdapter(adapter);
+
         // Setup intents
         intent_j_MainActivity = new Intent(AddStudent.this, MainActivity.class);
         intent_j_AddMajor = new Intent(AddStudent.this, AddMajor.class);
@@ -82,7 +96,8 @@ public class AddStudent extends AppCompatActivity
         // Button/Text Listeners
         addStudentButtonListener();
         cancelButtonListener();
-        addMajorButtonListener();
+        addMajorEventListener();
+        majorListEventListener();
     }
 
     // Buttons
@@ -93,9 +108,7 @@ public class AddStudent extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                /*
-                *  TODO: Add student to a database
-                */
+                // TODO: Add student to database
 
                 // Get username for error checking
                 String username = et_j_as_username.getText().toString();
@@ -126,6 +139,18 @@ public class AddStudent extends AppCompatActivity
                     // Reset all ET backgrounds, but set username to red
                     resetETBackgrounds(null);
                     etBackgroundRed(et_j_as_username);
+                }
+
+                else if (!validEmail(et_j_as_email.getText().toString()))
+                {
+                    // Invalid email
+                    tv_j_as_error.setText(errorMsgs.get(2));
+                    tv_j_as_error.setVisibility(View.VISIBLE);
+                    Log.e("ERROR", "Invalid email");
+
+                    // Reset all ET backgrounds, but set email to red
+                    resetETBackgrounds(null);
+                    etBackgroundRed(et_j_as_email);
                 }
 
                 else
@@ -177,7 +202,8 @@ public class AddStudent extends AppCompatActivity
         });
     }
 
-    private void addMajorButtonListener()
+    // Event Listeners
+    private void addMajorEventListener()
     {
         tv_j_as_newMajor.setOnClickListener(new View.OnClickListener()
         {
@@ -186,6 +212,24 @@ public class AddStudent extends AppCompatActivity
             {
                 // Go to AddMajor
                 startActivity(intent_j_AddMajor);
+            }
+        });
+    }
+
+    private void majorListEventListener()
+    {
+        sp_j_as_major.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                majorNameDisplay = adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+
             }
         });
     }
@@ -199,6 +243,17 @@ public class AddStudent extends AppCompatActivity
             {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    private boolean validEmail(String e)
+    {
+        // Look for the @ and . in the email
+        if (e.contains("@") && e.contains("."))
+        {
+            return true;
         }
 
         return false;

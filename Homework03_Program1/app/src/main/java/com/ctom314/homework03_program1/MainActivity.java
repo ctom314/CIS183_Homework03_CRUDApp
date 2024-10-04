@@ -3,9 +3,12 @@ package com.ctom314.homework03_program1;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +33,10 @@ public class MainActivity extends AppCompatActivity
     // Student List
     static ArrayList<Student> studentList = new ArrayList<>();
 
+    // TODO: Replace ArrayList with database
+    // Until databases are added, store Majors here
+    static ArrayList<Student.Major> majorList = new ArrayList<>();
+
     StudentsListAdapter adapter;
 
     @Override
@@ -47,13 +54,23 @@ public class MainActivity extends AppCompatActivity
         // Make sure the status bar is a static color
         getWindow().setStatusBarColor(Color.parseColor("#492A82"));
 
+        // If no majors exist, add default majors
+        if (majorList.isEmpty())
+        {
+            majorList.add(new Student.Major(1, "Computer Science", "CIS"));
+            majorList.add(new Student.Major(2, "Accounting", "BUS"));
+            majorList.add(new Student.Major(3, "Communications", "COM"));
+            majorList.add(new Student.Major(4, "Education", "EDU"));
+        }
+
         // Setup intents
         intent_j_AddStudent = new Intent(MainActivity.this, AddStudent.class);
         // TODO: Make SearchStudents Activity. Uncomment the following line when done
         // intent_j_SearchStudents = new Intent(MainActivity.this, SearchStudents.class);
 
-        // Button Listeners
+        // Button/Event Listeners
         addStudentButtonListener();
+        studentsListClickEvent();
 
         fillListView();
     }
@@ -72,6 +89,45 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    // Event Listeners
+    private void studentsListClickEvent()
+    {
+        // Short click opens student details page
+        lv_j_studentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                // TODO: Make StudentDetails Activity, finish this when done
+            }
+        });
+
+        // Long click deletes student
+        lv_j_studentsList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                // Get student that was clicked
+                Student student = studentList.get(i);
+
+                // TODO: Delete student from database
+                // Delete student from list
+                studentList.remove(i);
+
+                // Show user that student was deleted
+                Toast.makeText(MainActivity.this,
+                        student.getFName() + " " + student.getLName() + " deleted successfully",
+                        Toast.LENGTH_SHORT).show();
+
+                // Log deletion
+                Log.d("DELETION", "Student '" + student.getFName() + " " + student.getLName() + "' deleted");
+
+                fillListView();
+                return true;
+            }
+        });
+    }
+
+
     // TODO: Make searchStudentsButtonListener
 
     private void fillListView()
@@ -81,5 +137,17 @@ public class MainActivity extends AppCompatActivity
 
         // Set the adapter
         lv_j_studentsList.setAdapter(adapter);
+    }
+
+    public static ArrayList<String> getMajorNames()
+    {
+        ArrayList<String> majorNames = new ArrayList<>();
+
+        for (Student.Major major : majorList)
+        {
+            majorNames.add(major.getName());
+        }
+
+        return majorNames;
     }
 }

@@ -292,7 +292,7 @@
 
     <Button
         android:id="@+id/btn_v_as_addStudent"
-        android:layout_width="349dp"
+        android:layout_width="0dp"
         android:layout_height="63dp"
         android:layout_marginStart="31dp"
         android:layout_marginTop="265dp"
@@ -300,7 +300,7 @@
         android:layout_marginBottom="2dp"
         android:backgroundTint="#663AB6"
         android:fontFamily="monospace"
-        android:text="Add Student"
+        android:text="Add"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -311,7 +311,7 @@
 
     <Button
         android:id="@+id/btn_v_as_cancel"
-        android:layout_width="349dp"
+        android:layout_width="0dp"
         android:layout_height="63dp"
         android:layout_marginStart="31dp"
         android:layout_marginTop="14dp"
