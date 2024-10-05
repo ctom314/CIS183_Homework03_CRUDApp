@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -93,11 +94,11 @@ public class AddStudent extends AppCompatActivity
         intent_j_MainActivity = new Intent(AddStudent.this, MainActivity.class);
         intent_j_AddMajor = new Intent(AddStudent.this, AddMajor.class);
 
-        // Button/Text Listeners
+        // Button/Event Listeners
         addStudentButtonListener();
         cancelButtonListener();
         addMajorEventListener();
-        majorListEventListener();
+
     }
 
     // Buttons
@@ -164,10 +165,7 @@ public class AddStudent extends AppCompatActivity
                     String email = et_j_as_email.getText().toString();
                     int age = Integer.parseInt(et_j_as_age.getText().toString());
                     double gpa = Double.parseDouble(et_j_as_gpa.getText().toString());
-
-                    // TODO: Setup Major spinner. For now, use default value
-                    //String major = sp_j_as_major.getSelectedItem().toString();
-                    String major = "Computer Science";
+                    String major = sp_j_as_major.getSelectedItem().toString();
 
                     // Set background of ETs back to normal
                     resetETBackgrounds(null);
@@ -179,8 +177,10 @@ public class AddStudent extends AppCompatActivity
                     // Log student
                     Log.d("STUDENT ADDED", student.getFName() + " " + student.getLName());
 
-                    // Go back to the main activity
-                    startActivity(intent_j_MainActivity);
+                    // Show user that student was created
+                    Toast.makeText(AddStudent.this,
+                            student.getFName() + " " + student.getLName() + " created successfully",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -216,23 +216,11 @@ public class AddStudent extends AppCompatActivity
         });
     }
 
-    private void majorListEventListener()
-    {
-        sp_j_as_major.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
-            {
-                majorNameDisplay = adapterView.getItemAtPosition(i).toString();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView)
-            {
 
-            }
-        });
-    }
+    // ========================================================================
+    //                            Helper Functions
+    // ========================================================================
 
     // Check if username already exists
     private boolean usernameExists(String u)

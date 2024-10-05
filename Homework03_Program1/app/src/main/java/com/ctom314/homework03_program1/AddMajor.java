@@ -144,6 +144,10 @@ public class AddMajor extends AppCompatActivity
         });
     }
 
+    // ========================================================================
+    //                            Helper Functions
+    // ========================================================================
+
     private boolean majorExists(String majorName)
     {
         // TODO: When the database is implemented, check if the major exists inside the database

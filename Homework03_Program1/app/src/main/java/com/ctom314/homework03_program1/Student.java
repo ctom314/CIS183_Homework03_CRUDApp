@@ -1,6 +1,8 @@
 package com.ctom314.homework03_program1;
 
-public class Student
+import java.io.Serializable;
+
+public class Student implements Serializable
 {
     // Vars
     private String fName;

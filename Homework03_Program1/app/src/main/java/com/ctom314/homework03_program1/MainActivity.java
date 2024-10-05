@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity
 
     // Page Intents
     Intent intent_j_AddStudent;
+    Intent intent_j_StudentDetails;
     Intent intent_j_SearchStudents;
 
     // Student List
@@ -65,8 +66,21 @@ public class MainActivity extends AppCompatActivity
 
         // Setup intents
         intent_j_AddStudent = new Intent(MainActivity.this, AddStudent.class);
+        intent_j_StudentDetails = new Intent(MainActivity.this, StudentDetails.class);
         // TODO: Make SearchStudents Activity. Uncomment the following line when done
         // intent_j_SearchStudents = new Intent(MainActivity.this, SearchStudents.class);
+
+        // If student was updated, update student in list
+        Intent cameFrom = getIntent();
+        if ((cameFrom.getSerializableExtra("updatedStudent")) != null)
+        {
+            Student s = (Student) cameFrom.getSerializableExtra("updatedStudent");
+            updateStudent(s);
+
+            // Show user that student was updated
+            Toast.makeText(MainActivity.this, "Student updated successfully",
+                    Toast.LENGTH_SHORT).show();
+        }
 
         // Button/Event Listeners
         addStudentButtonListener();
@@ -98,6 +112,13 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
                 // TODO: Make StudentDetails Activity, finish this when done
+
+                // Get student and pass to StudentDetails
+                Student selectedStudent = getSelectedStudent(i);
+                intent_j_StudentDetails.putExtra("studentData", selectedStudent);
+
+                // Go to StudentDetails
+                startActivity(intent_j_StudentDetails);
             }
         });
 
@@ -149,5 +170,28 @@ public class MainActivity extends AppCompatActivity
         }
 
         return majorNames;
+    }
+
+    private Student getSelectedStudent(int position)
+    {
+        return studentList.get(position);
+    }
+
+    public void updateStudent(Student s)
+    {
+        // Find student in list
+        for (int i = 0; i < studentList.size(); i++)
+        {
+            Student student = studentList.get(i);
+
+            // If student is found, update
+            if (student.getUsername().equals(s.getUsername()))
+            {
+                studentList.set(i, s);
+                break;
+            }
+        }
+
+        fillListView();
     }
 }

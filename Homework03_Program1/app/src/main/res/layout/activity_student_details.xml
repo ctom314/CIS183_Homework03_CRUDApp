@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     android:background="#343434"
     android:fitsSystemWindows="true"
-    tools:context=".AddStudent">
+    tools:context=".StudentDetails">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tbar_v_as_headerBG"
+        android:id="@+id/tbar_v_sd_headerBG"
         android:layout_width="411dp"
         android:layout_height="0dp"
         android:background="#663AB6"
@@ -18,20 +18,18 @@
         android:theme="?attr/actionBarTheme" />
 
     <TextView
-        android:id="@+id/tv_v_as_header"
+        android:id="@+id/tv_v_sd_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:fontFamily="monospace"
-        android:text="Add Student"
+        android:text="Student Details"
         android:textColor="@color/white"
         android:textSize="36sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tbar_v_as_headerBG"
+        app:layout_constraintBottom_toBottomOf="@+id/tbar_v_sd_headerBG"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tbar_v_as_headerBG"
-        tools:layout_editor_absoluteX="80dp" />
+        app:layout_constraintTop_toTopOf="@+id/tbar_v_sd_headerBG" />
 
     <TextView
         android:id="@+id/lbl_firstName"
@@ -44,7 +42,7 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbar_v_as_headerBG" />
+        app:layout_constraintTop_toBottomOf="@+id/tbar_v_sd_headerBG" />
 
     <TextView
         android:id="@+id/lbl_lastName"
@@ -108,8 +106,8 @@
         android:text="GPA:"
         android:textColor="@color/white"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/et_v_as_gpa"
-        app:layout_constraintTop_toBottomOf="@+id/et_v_as_email" />
+        app:layout_constraintEnd_toStartOf="@+id/et_v_sd_gpa"
+        app:layout_constraintTop_toBottomOf="@+id/et_v_sd_email" />
 
     <TextView
         android:id="@+id/lbl_major"
@@ -122,27 +120,10 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_v_as_age" />
+        app:layout_constraintTop_toBottomOf="@+id/et_v_sd_age" />
 
     <TextView
-        android:id="@+id/tv_v_as_addMajorText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="43dp"
-        android:fontFamily="monospace"
-        android:text="Don't see your major? Add it here!"
-        android:textAllCaps="false"
-        android:textColor="#D2D2D2"
-        android:textSize="14sp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sp_v_as_major" />
-
-    <TextView
-        android:id="@+id/tv_v_as_error"
+        android:id="@+id/tv_v_sd_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="43dp"
@@ -153,12 +134,12 @@
         android:textColor="#FF5050"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btn_v_as_addStudent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_v_sd_editStudent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/et_v_as_fname"
+        android:id="@+id/et_v_sd_fname"
         android:layout_width="272dp"
         android:layout_height="24dp"
         android:layout_marginStart="6dp"
@@ -166,19 +147,19 @@
         android:layout_marginEnd="14dp"
         android:background="#2A2A2A"
         android:ems="10"
+        android:enabled="false"
         android:fontFamily="monospace"
         android:inputType="text"
         android:paddingLeft="5sp"
         android:paddingRight="5sp"
-        android:text="John"
         android:textColor="#D2D2D2"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/lbl_firstName"
-        app:layout_constraintTop_toBottomOf="@+id/tbar_v_as_headerBG" />
+        app:layout_constraintTop_toBottomOf="@+id/tbar_v_sd_headerBG" />
 
     <EditText
-        android:id="@+id/et_v_as_lname"
+        android:id="@+id/et_v_sd_lname"
         android:layout_width="272dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
@@ -188,17 +169,17 @@
         android:ems="10"
         android:fontFamily="monospace"
         android:inputType="text"
+        android:enabled="false"
         android:paddingLeft="5sp"
         android:paddingRight="5sp"
-        android:text="Smith"
         android:textColor="#D2D2D2"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/lbl_lastName"
-        app:layout_constraintTop_toBottomOf="@+id/et_v_as_fname" />
+        app:layout_constraintTop_toBottomOf="@+id/et_v_sd_fname" />
 
     <EditText
-        android:id="@+id/et_v_as_username"
+        android:id="@+id/et_v_sd_username"
         android:layout_width="272dp"
         android:layout_height="24dp"
         android:layout_marginStart="25dp"
@@ -208,17 +189,17 @@
         android:ems="10"
         android:fontFamily="monospace"
         android:inputType="text"
+        android:enabled="false"
         android:paddingLeft="5sp"
         android:paddingRight="5sp"
-        android:text="jsmith2214"
         android:textColor="#D2D2D2"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/lbl_username"
-        app:layout_constraintTop_toBottomOf="@+id/et_v_as_lname" />
+        app:layout_constraintTop_toBottomOf="@+id/et_v_sd_lname" />
 
     <EditText
-        android:id="@+id/et_v_as_email"
+        android:id="@+id/et_v_sd_email"
         android:layout_width="317dp"
         android:layout_height="24dp"
         android:layout_marginStart="9dp"
@@ -228,17 +209,17 @@
         android:ems="10"
         android:fontFamily="monospace"
         android:inputType="textEmailAddress"
+        android:enabled="false"
         android:paddingLeft="5sp"
         android:paddingRight="5sp"
-        android:text="jsmith2214@email.com"
         android:textColor="#D2D2D2"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/lbl_email"
-        app:layout_constraintTop_toBottomOf="@+id/et_v_as_username" />
+        app:layout_constraintTop_toBottomOf="@+id/et_v_sd_username" />
 
     <EditText
-        android:id="@+id/et_v_as_age"
+        android:id="@+id/et_v_sd_age"
         android:layout_width="120dp"
         android:layout_height="24dp"
         android:layout_marginStart="8dp"
@@ -248,17 +229,17 @@
         android:ems="10"
         android:fontFamily="monospace"
         android:inputType="number"
+        android:enabled="false"
         android:paddingLeft="5sp"
         android:paddingRight="5sp"
-        android:text="17"
         android:textColor="#D2D2D2"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/lbl_gpa"
         app:layout_constraintStart_toEndOf="@+id/lbl_age"
-        app:layout_constraintTop_toBottomOf="@+id/et_v_as_email" />
+        app:layout_constraintTop_toBottomOf="@+id/et_v_sd_email" />
 
     <EditText
-        android:id="@+id/et_v_as_gpa"
+        android:id="@+id/et_v_sd_gpa"
         android:layout_width="157dp"
         android:layout_height="24dp"
         android:layout_marginTop="32dp"
@@ -266,18 +247,18 @@
         android:ems="10"
         android:fontFamily="monospace"
         android:inputType="numberDecimal"
+        android:enabled="false"
         android:paddingLeft="5sp"
         android:paddingRight="5sp"
-        android:text="3.50"
         android:textColor="#D2D2D2"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.944"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_v_as_email" />
+        app:layout_constraintTop_toBottomOf="@+id/et_v_sd_email" />
 
     <Spinner
-        android:id="@+id/sp_v_as_major"
+        android:id="@+id/sp_v_sd_major"
         android:layout_width="317dp"
         android:layout_height="24dp"
         android:layout_marginStart="9dp"
@@ -288,10 +269,10 @@
         android:paddingRight="5sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/lbl_major"
-        app:layout_constraintTop_toBottomOf="@+id/et_v_as_age" />
+        app:layout_constraintTop_toBottomOf="@+id/et_v_sd_age" />
 
     <Button
-        android:id="@+id/btn_v_as_addStudent"
+        android:id="@+id/btn_v_sd_editStudent"
         android:layout_width="0dp"
         android:layout_height="63dp"
         android:layout_marginStart="31dp"
@@ -300,17 +281,58 @@
         android:layout_marginBottom="2dp"
         android:backgroundTint="#663AB6"
         android:fontFamily="monospace"
-        android:text="Add"
+        android:text="Edit Student"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btn_v_as_cancel"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/btn_v_sd_backButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sp_v_as_major" />
+        app:layout_constraintTop_toBottomOf="@+id/sp_v_sd_major" />
 
     <Button
-        android:id="@+id/btn_v_as_cancel"
+        android:id="@+id/btn_v_sd_backButton"
+        android:layout_width="0dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="84dp"
+        android:backgroundTint="#663AB6"
+        android:fontFamily="monospace"
+        android:text="Back"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_v_sd_editStudent" />
+
+    <Button
+        android:id="@+id/btn_v_sd_save"
+        android:layout_width="0dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="265dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="2dp"
+        android:backgroundTint="#663AB6"
+        android:fontFamily="monospace"
+        android:text="Save"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/btn_v_sd_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sp_v_sd_major" />
+
+    <Button
+        android:id="@+id/btn_v_sd_cancel"
         android:layout_width="0dp"
         android:layout_height="63dp"
         android:layout_marginStart="31dp"
@@ -323,10 +345,10 @@
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_v_as_addStudent" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/btn_v_sd_save" />
+    
 </androidx.constraintlayout.widget.ConstraintLayout>
