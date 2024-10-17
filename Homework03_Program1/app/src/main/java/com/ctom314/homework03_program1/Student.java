@@ -11,6 +11,8 @@ public class Student implements Serializable
     private String email;
     private int age;
     private double gpa;
+
+    // TODO: Replace string major with int majorId
     private String major;
 
     // Constructor
@@ -93,7 +95,7 @@ public class Student implements Serializable
     }
 
     // Major static class
-    static class Major
+    public static class Major
     {
         // Vars
         private int id;
