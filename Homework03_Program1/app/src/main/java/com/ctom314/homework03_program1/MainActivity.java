@@ -12,9 +12,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 
@@ -29,16 +26,14 @@ public class MainActivity extends AppCompatActivity
     // Page Intents
     Intent intent_j_AddStudent;
     Intent intent_j_StudentDetails;
-    Intent intent_j_SearchStudents;
+    Intent intent_j_StudentSearch;
 
-    // Student List
+    // Lists
     static ArrayList<Student> studentList = new ArrayList<>();
-
-    // TODO: Replace ArrayList with database
-    // Until databases are added, store Majors here
     static ArrayList<Student.Major> majorList = new ArrayList<>();
 
     StudentsListAdapter adapter;
+    static DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,20 +50,20 @@ public class MainActivity extends AppCompatActivity
         // Make sure the status bar is a static color
         getWindow().setStatusBarColor(Color.parseColor("#492A82"));
 
-        // If no majors exist, add default majors
-        if (majorList.isEmpty())
-        {
-            majorList.add(new Student.Major(1, "Computer Science", "CIS"));
-            majorList.add(new Student.Major(2, "Accounting", "BUS"));
-            majorList.add(new Student.Major(3, "Communications", "COM"));
-            majorList.add(new Student.Major(4, "Education", "EDU"));
-        }
+        // Setup database
+        dbHelper = new DatabaseHelper(this);
+
+        // Add dummy data
+        dbHelper.initAllTables();
+
+        // Sync lists with database
+        updateStudentList();
+        updateMajorList();
 
         // Setup intents
         intent_j_AddStudent = new Intent(MainActivity.this, AddStudent.class);
         intent_j_StudentDetails = new Intent(MainActivity.this, StudentDetails.class);
-        // TODO: Make SearchStudents Activity. Uncomment the following line when done
-        // intent_j_SearchStudents = new Intent(MainActivity.this, SearchStudents.class);
+        intent_j_StudentSearch = new Intent(MainActivity.this, SearchPage.class);
 
         // If student was updated, update student in list
         Intent cameFrom = getIntent();
@@ -84,6 +79,7 @@ public class MainActivity extends AppCompatActivity
 
         // Button/Event Listeners
         addStudentButtonListener();
+        searchButtonListener();
         studentsListClickEvent();
 
         fillListView();
@@ -111,8 +107,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
-                // TODO: Make StudentDetails Activity, finish this when done
-
                 // Get student and pass to StudentDetails
                 Student selectedStudent = getSelectedStudent(i);
                 intent_j_StudentDetails.putExtra("studentData", selectedStudent);
@@ -148,8 +142,18 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-
-    // TODO: Make searchStudentsButtonListener
+    private void searchButtonListener()
+    {
+        btn_j_searchStudents.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                // Go to search page
+                startActivity(intent_j_StudentSearch);
+            }
+        });
+    }
 
     private void fillListView()
     {
@@ -193,5 +197,18 @@ public class MainActivity extends AppCompatActivity
         }
 
         fillListView();
+    }
+
+    // Sync lists with database
+    public static void updateStudentList()
+    {
+        // Sync student list with database
+        studentList = dbHelper.getAllStudents();
+    }
+
+    public static void updateMajorList()
+    {
+        // Sync major list with database
+        majorList = dbHelper.getAllMajors();
     }
 }

@@ -63,7 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     }
 
     // Init dummy data
-    public void initAllTable()
+    public void initAllTables()
     {
         initMajors();
         initStudents();
@@ -133,8 +133,13 @@ public class DatabaseHelper extends SQLiteOpenHelper
         if (cursor != null) 
         {
             cursor.moveToFirst();
+
+            // Cannot just return cursor.getInt(0) because the cursor cannot be closed that way.
+            // Must store the count in a var so the cursor can be closed properly.
+            int count = cursor.getInt(0);
             cursor.close();
-            return cursor.getInt(0);
+
+            return count;
         }
 
         // Close database
@@ -267,5 +272,47 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
         // Return students
         return students;
+    }
+
+    // Get all majors from database
+    public ArrayList<Student.Major> getAllMajors()
+    {
+        ArrayList<Student.Major> majors = new ArrayList<>();
+
+        // Get database
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Get majors
+        String majorQuery = "SELECT * FROM " + MAJOR_TABLE_NAME + ";";
+        Cursor cursor = db.rawQuery(majorQuery, null);
+
+        if (cursor != null)
+        {
+            cursor.moveToFirst();
+
+            // Loop through majors
+            while (!cursor.isAfterLast())
+            {
+                // Get major vars
+                int majorId = cursor.getInt(0);
+                String majorName = cursor.getString(1);
+                String majorPrefix = cursor.getString(2);
+
+                // Make major
+                Student.Major major = new Student.Major(majorId, majorName, majorPrefix);
+                majors.add(major);
+
+                // Move to next major
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+        }
+
+        // Close database
+        db.close();
+
+        // Return majors
+        return majors;
     }
 }

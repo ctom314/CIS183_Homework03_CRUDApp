@@ -55,6 +55,9 @@ public class AddStudent extends AppCompatActivity
 
             // Major Add Error Message
             add(("Major already exists"));
+
+            // Search: Empty Fields
+            add(("At least one field must be filled out"));
         }
     };
 
@@ -83,6 +86,9 @@ public class AddStudent extends AppCompatActivity
 
         // Make sure the status bar is a static color
         getWindow().setStatusBarColor(Color.parseColor("#492A82"));
+
+        // Clear all fields
+        clearFields();
 
         // Setup adapter
         adapter = new ArrayAdapter<>
@@ -221,6 +227,17 @@ public class AddStudent extends AppCompatActivity
     // ========================================================================
     //                            Helper Functions
     // ========================================================================
+
+    // Clear all fields. Used when entering activity
+    private void clearFields()
+    {
+        et_j_as_fname.setText("");
+        et_j_as_lname.setText("");
+        et_j_as_username.setText("");
+        et_j_as_email.setText("");
+        et_j_as_age.setText("");
+        et_j_as_gpa.setText("");
+    }
 
     // Check if username already exists
     private boolean usernameExists(String u)
