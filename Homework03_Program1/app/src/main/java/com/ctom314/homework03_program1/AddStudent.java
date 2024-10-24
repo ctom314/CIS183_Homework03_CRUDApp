@@ -43,23 +43,6 @@ public class AddStudent extends AppCompatActivity
 
     // Pre-built adapter for majors
     ArrayAdapter<String> adapter;
-    String majorNameDisplay = MainActivity.majorList.get(0).getName();
-
-    static ArrayList<String> errorMsgs = new ArrayList<String>()
-    {
-        {
-            // Student Add Error Messages
-            add(("All fields must be filled out"));
-            add(("Username already exists"));
-            add(("Invalid email"));
-
-            // Major Add Error Message
-            add(("Major already exists"));
-
-            // Search: Empty Fields
-            add(("At least one field must be filled out"));
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -115,8 +98,6 @@ public class AddStudent extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                // TODO: Add student to database
-
                 // Get username for error checking
                 String username = et_j_as_username.getText().toString();
 
@@ -124,7 +105,7 @@ public class AddStudent extends AppCompatActivity
                 if (!allFieldsFilled())
                 {
                     // Not all fields filled out
-                    tv_j_as_error.setText(errorMsgs.get(0));
+                    tv_j_as_error.setText(MainActivity.errorMsgs.get(0));
                     tv_j_as_error.setVisibility(View.VISIBLE);
                     Log.e("ERROR", "Not all fields filled out");
 
@@ -139,7 +120,7 @@ public class AddStudent extends AppCompatActivity
                 else if (usernameExists(username))
                 {
                     // Username already exists
-                    tv_j_as_error.setText(errorMsgs.get(1));
+                    tv_j_as_error.setText(MainActivity.errorMsgs.get(1));
                     tv_j_as_error.setVisibility(View.VISIBLE);
                     Log.e("ERROR", "Username '" + username + "' already exists");
 
@@ -151,7 +132,7 @@ public class AddStudent extends AppCompatActivity
                 else if (!validEmail(et_j_as_email.getText().toString()))
                 {
                     // Invalid email
-                    tv_j_as_error.setText(errorMsgs.get(2));
+                    tv_j_as_error.setText(MainActivity.errorMsgs.get(2));
                     tv_j_as_error.setVisibility(View.VISIBLE);
                     Log.e("ERROR", "Invalid email");
 
@@ -171,14 +152,19 @@ public class AddStudent extends AppCompatActivity
                     String email = et_j_as_email.getText().toString();
                     int age = Integer.parseInt(et_j_as_age.getText().toString());
                     double gpa = Double.parseDouble(et_j_as_gpa.getText().toString());
-                    String major = sp_j_as_major.getSelectedItem().toString();
+                    Student.Major major = MainActivity.majorList.get(sp_j_as_major.getSelectedItemPosition());
 
                     // Set background of ETs back to normal
                     resetETBackgrounds(null);
 
                     // Create student
                     Student student = new Student(fname, lname, username, email, age, gpa, major);
-                    MainActivity.studentList.add(student);
+
+                    // Add student to database
+                    MainActivity.dbHelper.addStudent(student);
+
+                    // Update student list
+                    MainActivity.updateStudentList();
 
                     // Log student
                     Log.d("STUDENT ADDED", student.getFName() + " " + student.getLName());
@@ -199,9 +185,6 @@ public class AddStudent extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                // Log cancel
-                Log.e("CANCEL", "Student Add Cancelled");
-
                 // Go back to the main activity
                 startActivity(intent_j_MainActivity);
             }

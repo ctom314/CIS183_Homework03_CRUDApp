@@ -256,4 +256,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lbl_username" />
 
+    <Switch
+        android:id="@+id/sw_v_sp_toggleMajor"
+        android:layout_width="301dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="93dp"
+        android:checked="false"
+        android:text="Search with Major"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:typeface="monospace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sp_v_sp_major" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

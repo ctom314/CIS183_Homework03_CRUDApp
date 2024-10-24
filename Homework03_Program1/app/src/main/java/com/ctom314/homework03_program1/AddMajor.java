@@ -68,8 +68,6 @@ public class AddMajor extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                // TODO: Add Major to database
-
                 // Get vars
                 String majorName = et_j_am_majorName.getText().toString();
                 String majorPrefix = et_j_am_majorPrefix.getText().toString();
@@ -78,7 +76,7 @@ public class AddMajor extends AppCompatActivity
                 if (!allFieldsFilled())
                 {
                     // Not all fields are filled
-                    tv_j_am_error.setText(AddStudent.errorMsgs.get(0));
+                    tv_j_am_error.setText(MainActivity.errorMsgs.get(0));
                     tv_j_am_error.setVisibility(TextView.VISIBLE);
                     Log.e("ERROR", "Not all fields filled out");
 
@@ -92,7 +90,7 @@ public class AddMajor extends AppCompatActivity
                 else if (majorExists(majorName))
                 {
                     // Major already exists
-                    tv_j_am_error.setText(AddStudent.errorMsgs.get(3));
+                    tv_j_am_error.setText(MainActivity.errorMsgs.get(3));
                     tv_j_am_error.setVisibility(View.VISIBLE);
                     Log.e("ERROR", "Major '" + majorName + "' already exists");
 
@@ -114,7 +112,12 @@ public class AddMajor extends AppCompatActivity
 
                     // Create major
                     Student.Major major = new Student.Major(majorId, majorName, majorPrefix);
-                    MainActivity.majorList.add(major);
+
+                    // Add major to database
+                    MainActivity.dbHelper.addMajor(major);
+
+                    // Update major list
+                    MainActivity.updateMajorList();
 
                     // Log major
                     Log.i("MAJOR", "Major '" + majorName + "' added");
@@ -150,9 +153,6 @@ public class AddMajor extends AppCompatActivity
 
     private boolean majorExists(String majorName)
     {
-        // TODO: When the database is implemented, check if the major exists inside the database
-        // TODO: instead of checking if the majorId is in the list of majors
-
         // Get lower case version of majorName
         majorName = majorName.toLowerCase();
 

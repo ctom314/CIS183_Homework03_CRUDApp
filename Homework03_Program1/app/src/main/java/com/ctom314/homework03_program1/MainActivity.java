@@ -1,3 +1,9 @@
+// =================================================================
+// Author: Cody Thompson
+// Date: 10/24/2024
+// Desc: CRUD app for student management using Databases
+// =================================================================
+
 package com.ctom314.homework03_program1;
 
 import android.content.Intent;
@@ -31,6 +37,25 @@ public class MainActivity extends AppCompatActivity
     // Lists
     static ArrayList<Student> studentList = new ArrayList<>();
     static ArrayList<Student.Major> majorList = new ArrayList<>();
+
+    static ArrayList<String> errorMsgs = new ArrayList<String>()
+    {
+        {
+            // Student Add Error Messages
+            add(("All fields must be filled out"));
+            add(("Username already exists"));
+            add(("Invalid email"));
+
+            // Major Add Error Message
+            add(("Major already exists"));
+
+            // Search: Empty Fields
+            add(("At least one field must be filled out"));
+
+            // Search: Invalid GPA
+            add(("GPA must be a number"));
+        }
+    };
 
     StudentsListAdapter adapter;
     static DatabaseHelper dbHelper;
@@ -121,12 +146,15 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l)
             {
-                // Get student that was clicked
+                // Get student ID from the student that was clicked
                 Student student = studentList.get(i);
+                int id = dbHelper.getStudentId(student.getUsername());
 
-                // TODO: Delete student from database
-                // Delete student from list
-                studentList.remove(i);
+                // Delete student from database
+                dbHelper.deleteStudent(id);
+
+                // Sync student list with database
+                updateStudentList();
 
                 // Show user that student was deleted
                 Toast.makeText(MainActivity.this,
@@ -176,25 +204,18 @@ public class MainActivity extends AppCompatActivity
         return majorNames;
     }
 
-    private Student getSelectedStudent(int position)
+    public static Student getSelectedStudent(int position)
     {
         return studentList.get(position);
     }
 
     public void updateStudent(Student s)
     {
-        // Find student in list
-        for (int i = 0; i < studentList.size(); i++)
-        {
-            Student student = studentList.get(i);
+        // Update student in Database
+        dbHelper.updateStudent(s);
 
-            // If student is found, update
-            if (student.getUsername().equals(s.getUsername()))
-            {
-                studentList.set(i, s);
-                break;
-            }
-        }
+        // Sync student list with database
+        updateStudentList();
 
         fillListView();
     }

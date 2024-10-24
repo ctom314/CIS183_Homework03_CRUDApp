@@ -11,12 +11,10 @@ public class Student implements Serializable
     private String email;
     private int age;
     private double gpa;
-
-    // TODO: Replace string major with int majorId
-    private String major;
+    private Major major;
 
     // Constructor
-    public Student(String f, String l, String u, String e, int a, double g, String m)
+    public Student(String f, String l, String u, String e, int a, double g, Major m)
     {
         fName = f;
         lName = l;
@@ -58,7 +56,7 @@ public class Student implements Serializable
         return gpa;
     }
 
-    public String getMajor()
+    public Major getMajor()
     {
         return major;
     }
@@ -95,7 +93,7 @@ public class Student implements Serializable
     }
 
     // Major static class
-    public static class Major
+    public static class Major implements Serializable
     {
         // Vars
         private int id;

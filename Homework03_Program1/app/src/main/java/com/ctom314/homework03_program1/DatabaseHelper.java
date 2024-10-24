@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     private static final String DATABASE_NAME = "studentDB";
     private static final String STUDENT_TABLE_NAME = "Students";
     private static final String MAJOR_TABLE_NAME = "Majors";
-    private static int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public DatabaseHelper(Context c)
     {
@@ -49,17 +49,6 @@ public class DatabaseHelper extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + MAJOR_TABLE_NAME + ";");
 
         onCreate(db);
-    }
-
-    // Getters
-    public String getStudentTableName()
-    {
-        return STUDENT_TABLE_NAME;
-    }
-
-    public String getMajorTableName()
-    {
-        return MAJOR_TABLE_NAME;
     }
 
     // Init dummy data
@@ -116,6 +105,9 @@ public class DatabaseHelper extends SQLiteOpenHelper
                     "VALUES ('Accounting', 'ACC');");
             db.execSQL("INSERT INTO " + MAJOR_TABLE_NAME + " (majorName, majorPrefix) " +
                     "VALUES ('Biology', 'BIO');");
+
+            // Close database
+            db.close();
         }
     }
 
@@ -149,48 +141,60 @@ public class DatabaseHelper extends SQLiteOpenHelper
         return -1;
     }
 
-    // Get Student Object from database
-    public Student getStudent(int studentId)
+    // Get Student ID from database
+    public int getStudentId(String username)
     {
-        Student student = null;
-        
+        int studentId = -1;
+
         // Get database
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // Get student
-        String studentQuery = "SELECT * FROM " + STUDENT_TABLE_NAME + " WHERE studentId = '" + studentId + "';";
+        // Get student ID
+        String studentQuery = "SELECT studentId FROM " + STUDENT_TABLE_NAME + " WHERE username = '" + username + "';";
         Cursor cursor = db.rawQuery(studentQuery, null);
-        
+
         if (cursor != null)
         {
             cursor.moveToFirst();
-
-            // Get student vars
-            String fName = cursor.getString(1);
-            String lName = cursor.getString(2);
-            String username = cursor.getString(3);
-            String email = cursor.getString(4);
-            int age = cursor.getInt(5);
-            double gpa = cursor.getDouble(6);
-            int majorId = cursor.getInt(7);
-
-            // Get major name
-            String majorName = getMajor(majorId).getName();
-
-            // Make student
-            student = new Student(fName, lName, username, email, age, gpa, majorName);
-
+            studentId = cursor.getInt(0);
             cursor.close();
         }
 
         // Close database
         db.close();
 
-        // Return student
-        // TODO: Replace majorName with majorId
-        return student;
+        // Return student ID
+        return studentId;
     }
-    
+
+
+
+    // Get Major ID from database
+    public int getMajorId(String majorName)
+    {
+        int majorId = -1;
+
+        // Get database
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Get major ID
+        String majorQuery = "SELECT majorId FROM " + MAJOR_TABLE_NAME + " WHERE majorName = '" + majorName + "';";
+        Cursor cursor = db.rawQuery(majorQuery, null);
+
+        if (cursor != null)
+        {
+            cursor.moveToFirst();
+            majorId = cursor.getInt(0);
+            cursor.close();
+        }
+
+        // Close database
+        db.close();
+
+        // Return major ID
+        return majorId;
+    }
+
     // Get Major Object from database
     public Student.Major getMajor(int majorId)
     {
@@ -253,11 +257,11 @@ public class DatabaseHelper extends SQLiteOpenHelper
                 double gpa = cursor.getDouble(6);
                 int majorId = cursor.getInt(7);
 
-                // Get major name
-                String majorName = getMajor(majorId).getName();
+                // Get major
+                Student.Major major = getMajor(majorId);
 
                 // Make student
-                Student student = new Student(fName, lName, username, email, age, gpa, majorName);
+                Student student = new Student(fName, lName, username, email, age, gpa, major);
                 students.add(student);
 
                 // Move to next student
@@ -275,6 +279,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     }
 
     // Get all majors from database
+    // Will be used to sync with majorList
     public ArrayList<Student.Major> getAllMajors()
     {
         ArrayList<Student.Major> majors = new ArrayList<>();
@@ -315,4 +320,202 @@ public class DatabaseHelper extends SQLiteOpenHelper
         // Return majors
         return majors;
     }
+
+    // Delete student from database
+    public void deleteStudent(int studentId)
+    {
+        // Get database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Delete student
+        db.execSQL("DELETE FROM " + STUDENT_TABLE_NAME + " WHERE studentId = '" + studentId + "';");
+        db.close();
+    }
+
+    // Add student to database
+    public void addStudent(Student s)
+    {
+        // Get major ID
+        // Getting ID directly from DB instead of Student object to avoid problems
+        int majorId = getMajorId(s.getMajor().getName());
+
+        // Get database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Add student
+        db.execSQL("INSERT INTO " + STUDENT_TABLE_NAME +
+                " (fName, lName, username, email, age, gpa, majorId) " +
+                "VALUES ('" + s.getFName() + "', '" + s.getLName() + "', '" + s.getUsername() +
+                "', '" + s.getEmail() + "', " + s.getAge() +
+                ", " + s.getGpa() + ", " + majorId + ");");
+
+        // Close database
+        db.close();
+    }
+
+    // Add major to database
+    public void addMajor(Student.Major m)
+    {
+        // Get database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Add major
+        db.execSQL("INSERT INTO " + MAJOR_TABLE_NAME + " (majorName, majorPrefix) " +
+                "VALUES ('" + m.getName() + "', '" + m.getPrefix() + "');");
+
+        // Close database
+        db.close();
+    }
+
+    // Update Student in db with new student
+    public void updateStudent(Student s)
+    {
+        // Get student ID
+        int studentId = getStudentId(s.getUsername());
+
+        // Get database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Update student
+        db.execSQL("UPDATE " + STUDENT_TABLE_NAME + " SET " +
+                "fName = '" + s.getFName() + "', " +
+                "lName = '" + s.getLName() + "', " +
+                "email = '" + s.getEmail() + "', " +
+                "age = " + s.getAge() + ", " +
+                "gpa = " + s.getGpa() + ", " +
+                "majorId = " + s.getMajor().getId() +
+                " WHERE studentId = '" + studentId + "';");
+
+        // Close database
+        db.close();
+    }
+
+    // Search for students given a query
+    public ArrayList<Student> studentSearch(Query q)
+    {
+        ArrayList<Student> results = null;
+        int majorId = getMajorId(q.getMajorName());
+
+        // Get database
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Setup query statement
+        String searchQuery = "SELECT * FROM " + STUDENT_TABLE_NAME + " WHERE ";
+
+        // ========================================================================
+        //                              Searching Logic
+        // ========================================================================
+        // Search by first name
+        if (q.getFName().isEmpty())
+        {
+            searchQuery += "fName IS NOT NULL AND ";
+        }
+        else
+        {
+            searchQuery += "fName COLLATE NOCASE = '" + q.getFName() + "' AND ";
+        }
+
+        // Search by last name
+        if (q.getLName().isEmpty())
+        {
+            searchQuery += "lName IS NOT NULL AND ";
+        }
+        else
+        {
+            searchQuery += "lName COLLATE NOCASE = '" + q.getLName() + "' AND ";
+        }
+
+        // Search by username
+        if (q.getUsername().isEmpty())
+        {
+            searchQuery += "username IS NOT NULL AND ";
+        }
+        else
+        {
+            searchQuery += "username COLLATE NOCASE = '" + q.getUsername() + "' AND ";
+        }
+
+        // Search by GPA
+        if (q.getGpa().isEmpty())
+        {
+            searchQuery += "gpa IS NOT NULL AND ";
+        }
+        else
+        {
+            // Use a different operator based on what the user selected
+            if (q.getGpaOperator().equalsIgnoreCase("Greater Than"))
+            {
+                searchQuery += "gpa > " + q.getGpa() + " AND ";
+            }
+            else if (q.getGpaOperator().equalsIgnoreCase("Less Than"))
+            {
+                searchQuery += "gpa < " + q.getGpa() + " AND ";
+            }
+            else if (q.getGpaOperator().equalsIgnoreCase("Equal To"))
+            {
+                searchQuery += "gpa = " + q.getGpa() + " AND ";
+            }
+            else if (q.getGpaOperator().equalsIgnoreCase("Greater/Equal To"))
+            {
+                searchQuery += "gpa >= " + q.getGpa() + " AND ";
+            }
+            else if (q.getGpaOperator().equalsIgnoreCase("Less/Equal To"))
+            {
+                searchQuery += "gpa <= " + q.getGpa() + " AND ";
+            }
+        }
+
+        // Search by major
+        if (q.getSearchByMajor())
+        {
+            searchQuery += "majorId = " + majorId;
+        }
+        else
+        {
+            searchQuery += "majorId IS NOT NULL";
+        }
+
+        // Finish query
+        searchQuery += ";";
+
+        // Run query
+        Cursor cursor = db.rawQuery(searchQuery, null);
+
+        if (cursor != null)
+        {
+            cursor.moveToFirst();
+            results = new ArrayList<>();
+
+            // Loop through results
+            while (!cursor.isAfterLast())
+            {
+                // Get student vars
+                String fName = cursor.getString(1);
+                String lName = cursor.getString(2);
+                String username = cursor.getString(3);
+                String email = cursor.getString(4);
+                int age = cursor.getInt(5);
+                double gpa = cursor.getDouble(6);
+                majorId = cursor.getInt(7);
+
+                // Get major
+                Student.Major major = getMajor(majorId);
+
+                // Make student
+                Student student = new Student(fName, lName, username, email, age, gpa, major);
+                results.add(student);
+
+                // Move to next student
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+        }
+
+        // Close database
+        db.close();
+
+        return results;
+    }
+
 }

@@ -19,9 +19,6 @@
             android:name=".SearchPage"
             android:exported="false" />
         <activity
-            android:name=".search.SearchPage"
-            android:exported="false" />
-        <activity
             android:name=".StudentDetails"
             android:exported="false" />
         <activity

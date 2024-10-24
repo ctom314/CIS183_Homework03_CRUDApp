@@ -91,7 +91,6 @@ public class StudentDetails extends AppCompatActivity
             getFieldData(s);
         }
 
-
         // Disable fields
         enableFields(false);
 
@@ -148,21 +147,19 @@ public class StudentDetails extends AppCompatActivity
             @Override
             public void onClick(View view) 
             {
-                // TODO: Replace student in database
-
                 // Get vars
                 String fname = et_j_sd_fname.getText().toString();
                 String lname = et_j_sd_lname.getText().toString();
                 String username = et_j_sd_username.getText().toString();
                 String email = et_j_sd_email.getText().toString();
-                String major = sp_j_sd_major.getSelectedItem().toString();
+                Student.Major major = MainActivity.majorList.get(sp_j_sd_major.getSelectedItemPosition());
 
                 // Error Handling
                 // Since username cannot be changed, no error handling is needed for it
                 if (!allFieldsFilled())
                 {
                     // Not all fields filled out
-                    tv_j_sd_error.setText(AddStudent.errorMsgs.get(0));
+                    tv_j_sd_error.setText(MainActivity.errorMsgs.get(0));
                     tv_j_sd_error.setVisibility(View.VISIBLE);
                     Log.e("ERROR", "Not all fields filled out");
 
@@ -176,7 +173,7 @@ public class StudentDetails extends AppCompatActivity
                 else if (!validEmail(et_j_sd_email.getText().toString()))
                 {
                     // Invalid email
-                    tv_j_sd_error.setText(AddStudent.errorMsgs.get(2));
+                    tv_j_sd_error.setText(MainActivity.errorMsgs.get(2));
                     tv_j_sd_error.setVisibility(View.VISIBLE);
                     Log.e("ERROR", "Invalid email");
 
@@ -254,7 +251,7 @@ public class StudentDetails extends AppCompatActivity
         et_j_sd_gpa.setText(String.valueOf(s.getGpa()));
 
         // Set spinner to major
-        majorNameDisplay = s.getMajor();
+        majorNameDisplay = s.getMajor().getName();
         sp_j_sd_major.setSelection(adapter.getPosition(majorNameDisplay));
     }
 
