@@ -52,6 +52,9 @@ public class AddMajor extends AppCompatActivity
         // Make sure the status bar is a static color
         getWindow().setStatusBarColor(Color.parseColor("#492A82"));
 
+        // Clear fields
+        clearFields();
+
         // Setup intents
         intent_j_AddStudent = new Intent(AddMajor.this, AddStudent.class);
 
@@ -150,6 +153,13 @@ public class AddMajor extends AppCompatActivity
     // ========================================================================
     //                            Helper Functions
     // ========================================================================
+
+    // Clear all fields. Used when entering activity
+    private void clearFields()
+    {
+        et_j_am_majorName.setText("");
+        et_j_am_majorPrefix.setText("");
+    }
 
     private boolean majorExists(String majorName)
     {
